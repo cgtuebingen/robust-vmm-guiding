@@ -44,7 +44,7 @@ import SCons.Scanner
 import SCons.Tool
 import SCons.Util
 
-class ToolQtWarning(SCons.Warnings.Warning):
+class ToolQtWarning(SCons.Warnings.SConsWarning):
         pass
 
 class GeneratedMocFileNotIncluded(ToolQtWarning):

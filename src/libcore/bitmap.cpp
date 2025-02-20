@@ -24,6 +24,7 @@
 #include <boost/scoped_array.hpp>
 #include <boost/thread/mutex.hpp>
 #include <set>
+#include <cstdint>
 
 #if defined(__WINDOWS__)
 #undef _CRT_SECURE_NO_WARNINGS
@@ -35,6 +36,7 @@
 #pragma warning(disable : 4231) // nonstandard extension used : 'extern' before template explicit instantiation
 #endif
 #include <ImfInputFile.h>
+#include <ImfFrameBuffer.h>
 #include <ImfStandardAttributes.h>
 #include <ImfRgbaYca.h>
 #include <ImfOutputFile.h>
@@ -97,11 +99,11 @@ public:
         return m_stream->getPos() == m_size;
     }
 
-    Imf::Int64 tellg() {
+    uint64_t tellg() {
         return m_stream->getPos()-m_offset;
     }
 
-    void seekg(Imf::Int64 pos) {
+    void seekg(uint64_t pos) {
         m_stream->seek((size_t) pos + m_offset);
     }
 
@@ -121,11 +123,11 @@ public:
         m_stream->write(c, n);
     }
 
-    Imf::Int64 tellp() {
+    uint64_t tellp() {
         return m_stream->getPos();
     }
 
-    void seekp(Imf::Int64 pos) {
+    void seekp(uint64_t pos) {
         m_stream->seek((size_t) pos);
     }
 
@@ -263,7 +265,7 @@ extern "C" {
         p->mgr.free_in_buffer = 0;
     }
 
-    METHODDEF(void) jpeg_error_exit (j_common_ptr cinfo) throw(std::runtime_error) {
+    METHODDEF(void) jpeg_error_exit (j_common_ptr cinfo) {
         char msg[JMSG_LENGTH_MAX];
         (*cinfo->err->format_message) (cinfo, msg);
         SLog(EError, "Critcal libjpeg error: %s", msg);

@@ -23,7 +23,7 @@ def scanFiles(dir, accept=["*.cpp"], reject=[]) :
 if hasQt:
         qtEnv = mainEnv.Clone()
         qtEnv.Append(CPPPATH=['#src/mtsgui'])
-        if qtEnv.has_key('QTINCLUDE'):
+        if 'QTINCLUDE' in qtEnv:
                 qtEnv.Prepend(CPPPATH=qtEnv['QTINCLUDE'])
         qtEnv.EnableQt5Modules(['QtGui', 'QtWidgets', 'QtCore', 'QtOpenGL', 'QtXml', 'QtXmlPatterns', 'QtNetwork'])
 
@@ -51,9 +51,9 @@ if hasQt:
 
         if hasCollada:
                 qtSources += converter_objects
-                if env.has_key('COLLADALIBDIR'):
+                if 'COLLADALIBDIR' in env:
                         qtEnv.Prepend(LIBPATH=env['COLLADALIBDIR'])
-                if env.has_key('COLLADALIB'):
+                if 'COLLADALIB' in env:
                         qtEnv.Prepend(LIBS=env['COLLADALIB'])
 
         if sys.platform == 'darwin':
